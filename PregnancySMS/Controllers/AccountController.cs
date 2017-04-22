@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity.Validation;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -17,6 +18,7 @@ namespace PregnancySMS.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public AccountController()
         {
@@ -151,12 +153,23 @@ namespace PregnancySMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    PhoneNumber = model.PhoneNumber
+                };
+                var number = new Number {PhoneNumber = user.PhoneNumber, ApplicationUser = user, Id = generateID()};
+                user.Number = number;
+                db.Numbers.Add(number);
+                //await db.SaveChangesAsync();
+
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -423,6 +436,21 @@ namespace PregnancySMS.Controllers
             base.Dispose(disposing);
         }
 
+        public string generateID()
+        {
+            return Guid.NewGuid().ToString("N");
+        }
+
+        [Authorize]
+        public ActionResult MyInformation()
+        {
+            var userid = User.Identity.GetUserId();
+            var currentuser = db.Users.Find(userid);
+            MyInformationViewModel vm = new MyInformationViewModel();
+            vm.ApplicationUser = currentuser;
+            vm.Number = currentuser.Number;
+            return View(vm);
+        }
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";

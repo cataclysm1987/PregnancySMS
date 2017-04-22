@@ -1,0 +1,13 @@
+﻿@model PregnancySMS.Models.MyInformationViewModel
+
+@{
+    ViewBag.Title = "My Information";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>My Information</h2>
+
+<p>@Model.ApplicationUser.UserName</p>
+
+<p>@Model.Number.PhoneNumber</p>
+
