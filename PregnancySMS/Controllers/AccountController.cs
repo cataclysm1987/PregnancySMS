@@ -161,7 +161,7 @@ namespace PregnancySMS.Controllers
                 };
                 var number = new Number {PhoneNumber = user.PhoneNumber, ApplicationUser = user, Id = generateID()};
                 user.Number = number;
-                db.Numbers.Add(number);
+                db.Numbers.Add(number);               
                 //await db.SaveChangesAsync();
 
 

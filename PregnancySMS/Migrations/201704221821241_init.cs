@@ -20,7 +20,17 @@ namespace PregnancySMS.Migrations
                         PhoneNumber = c.String(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
-            
+
+            CreateTable(
+                "dbo.Messages",
+                c => new
+                    {
+                        Id = c.Int(nullable: false),
+                        MessageText = c.String(nullable: true),
+                        NextMessageId = c.Int()
+                    })
+                .PrimaryKey(t => t.Id);
+
             CreateTable(
                 "dbo.ApplicationUsers",
                 c => new

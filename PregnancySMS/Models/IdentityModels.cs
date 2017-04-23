@@ -21,6 +21,7 @@ namespace PregnancySMS.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<Message> Messages { get; set; }
         public DbSet<Number> Numbers { get; set; }
 
         public ApplicationDbContext()
