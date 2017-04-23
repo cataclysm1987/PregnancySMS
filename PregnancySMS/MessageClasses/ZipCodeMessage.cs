@@ -1,5 +1,4 @@
-﻿using PregnancySMS.MessageClasses.Helpers;
-using PregnancySMS.MessageClasses.Interfaces;
+﻿using PregnancySMS.MessageClasses.Interfaces;
 using PregnancySMS.Models;
 
 namespace PregnancySMS.MessageClasses
@@ -8,18 +7,19 @@ namespace PregnancySMS.MessageClasses
     {
         public IMessageLogic ProcessUserResponse(string userResponseText, Number userNumberEntity)
         {
-            bool? responseAsBool = new YesNoResponseParser().ConvertToBool(userResponseText);
-
-            if (responseAsBool != null)
+            string zipCode = userResponseText.Trim();
+            bool zipCodeIsValid = true; //replace with code to validate zipcode
+            if (zipCodeIsValid)
             {
                 using (ApplicationDbContext db = new ApplicationDbContext())
                 {
-                    userNumberEntity.HasDoctor = responseAsBool.Value;
+                    userNumberEntity.ZipCode = zipCode;
                     db.Entry(userNumberEntity).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
                 }
+                return new InformationRegisteredMessage(userNumberEntity.Id);
             }
-            return new InformationRegisteredMessage();
+            return new InvalidZipCodeMessage();
         }
 
         public string GetMessageText()

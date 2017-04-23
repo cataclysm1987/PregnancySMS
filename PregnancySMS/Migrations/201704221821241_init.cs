@@ -27,7 +27,6 @@ namespace PregnancySMS.Migrations
                     {
                         Id = c.Int(nullable: false),
                         MessageText = c.String(nullable: true),
-                        NextMessageId = c.Int()
                     })
                 .PrimaryKey(t => t.Id);
 

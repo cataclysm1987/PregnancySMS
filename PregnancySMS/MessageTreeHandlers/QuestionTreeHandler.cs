@@ -3,7 +3,7 @@ using PregnancySMS.MessageClasses;
 using PregnancySMS.MessageClasses.Interfaces;
 using PregnancySMS.Models;
 
-namespace PregnancySMS.Helpers
+namespace PregnancySMS.MessageTreeHandlers
 {
     public class QuestionTreeHandler
     {
@@ -16,10 +16,16 @@ namespace PregnancySMS.Helpers
         /// <returns></returns>
         public string HandleMessage(Number userNumberEntity, string userTextContent)
         {
+            if(userTextContent.ToLower() == "stop")
+            {
+                //Code to handle unsubscribing
+                return "You have been unsubscribed from PrenancySMS.";
+            }
+
             IMessageLogic lastMessageWeSentId = ConversationCache.GetPreviousMessage(userNumberEntity.Id);
             IMessageLogic messageToSend;
 
-            if(lastMessageWeSentId == null)
+            if(userTextContent.ToLower() == "baby")
             {
                 //create send pregnancy message to cache
                 messageToSend = new PregnancyLengthMessage();

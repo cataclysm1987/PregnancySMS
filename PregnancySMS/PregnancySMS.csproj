@@ -231,7 +231,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\QuestionTreeHandler.cs" />
+    <Compile Include="HelperClasses\AdviceMessageGenerator.cs" />
+    <Compile Include="MessageTreeHandlers\QuestionTreeHandler.cs" />
     <Compile Include="MessageClasses\BaseMessageLogic.cs" />
     <Compile Include="MessageClasses\HasInsuranceMessage.cs" />
     <Compile Include="MessageClasses\HasNutritionMessage.cs" />
@@ -239,6 +240,7 @@
     <Compile Include="MessageClasses\HasDoctorMessage.cs" />
     <Compile Include="MessageClasses\InformationRegisteredMessage.cs" />
     <Compile Include="MessageClasses\Interfaces\IMessageLogic.cs" />
+    <Compile Include="MessageClasses\InvalidZipCodeMessage.cs" />
     <Compile Include="MessageClasses\PregnancyLengthMessage.cs" />
     <Compile Include="MessageClasses\ZipCodeMessage.cs" />
     <Compile Include="Migrations\201704221821241_init.cs" />
