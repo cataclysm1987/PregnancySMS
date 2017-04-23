@@ -232,6 +232,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Cache\ConversationCache.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -239,6 +240,18 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HelperClasses\AdviceMessageGenerator.cs" />
+    <Compile Include="MessageTreeHandlers\QuestionTreeHandler.cs" />
+    <Compile Include="MessageClasses\BaseMessageLogic.cs" />
+    <Compile Include="MessageClasses\HasInsuranceMessage.cs" />
+    <Compile Include="MessageClasses\HasNutritionMessage.cs" />
+    <Compile Include="MessageClasses\Helpers\YesNoResponseParser.cs" />
+    <Compile Include="MessageClasses\HasDoctorMessage.cs" />
+    <Compile Include="MessageClasses\InformationRegisteredMessage.cs" />
+    <Compile Include="MessageClasses\Interfaces\IMessageLogic.cs" />
+    <Compile Include="MessageClasses\InvalidZipCodeMessage.cs" />
+    <Compile Include="MessageClasses\PregnancyLengthMessage.cs" />
+    <Compile Include="MessageClasses\ZipCodeMessage.cs" />
     <Compile Include="Migrations\201704221821241_init.cs" />
     <Compile Include="Migrations\201704221821241_init.Designer.cs">
       <DependentUpon>201704221821241_init.cs</DependentUpon>
@@ -252,6 +265,7 @@
     <Compile Include="Models\Advice.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Message.cs" />
     <Compile Include="Models\MyInformationViewModel.cs" />
     <Compile Include="Models\Number.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -280,7 +294,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
