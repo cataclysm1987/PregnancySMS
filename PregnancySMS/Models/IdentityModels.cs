@@ -22,6 +22,7 @@ namespace PregnancySMS.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Number> Numbers { get; set; }
+        public DbSet<Advice> Advice { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
