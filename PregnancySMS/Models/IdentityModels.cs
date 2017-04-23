@@ -23,6 +23,7 @@ namespace PregnancySMS.Models
     {
         public DbSet<Message> Messages { get; set; }
         public DbSet<Number> Numbers { get; set; }
+        public DbSet<Advice> Advice { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

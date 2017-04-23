@@ -51,7 +51,18 @@ namespace PregnancySMS.Migrations
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Numbers", t => t.Id)
                 .Index(t => t.Id);
-            
+
+            CreateTable(
+             "dbo.Advice",
+             c => new
+             {
+                 Id = c.Int(),
+                 Trimester = c.Int(),
+                 AdviceText = c.String(),
+               
+             })
+             .PrimaryKey(t => t.Id);
+
             CreateTable(
                 "dbo.IdentityUserClaims",
                 c => new
