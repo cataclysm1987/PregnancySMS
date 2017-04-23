@@ -7,7 +7,7 @@ namespace PregnancySMS.MessageClasses
 {
     public class HasDoctorMessage : BaseMessageLogic, IMessageLogic
     {
-        public IMessageLogic ProcessUserResponse(string userResponseText, Number userNumberEntity)
+        public IMessageLogic ProcessUserResponse(string userResponseText, string numberid)
         {
             bool? responseAsBool = new YesNoResponseParser().ConvertToBool(userResponseText);
 
@@ -15,6 +15,7 @@ namespace PregnancySMS.MessageClasses
             {
                 using (ApplicationDbContext db = new ApplicationDbContext())
                 {
+                    var userNumberEntity = db.Numbers.FirstOrDefault(u => u.Id == numberid);
                     userNumberEntity.HasDoctor = responseAsBool.Value;
                     db.Entry(userNumberEntity).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();

@@ -9,9 +9,9 @@ namespace PregnancySMS.MessageClasses
 {
     public class InvalidZipCodeMessage : BaseMessageLogic, IMessageLogic
     {
-        public IMessageLogic ProcessUserResponse(string userResponseText, Number userNumberEntity)
+        public IMessageLogic ProcessUserResponse(string userResponseText, string numberid)
         {
-            return new ZipCodeMessage().ProcessUserResponse(userResponseText, userNumberEntity);
+            return new ZipCodeMessage().ProcessUserResponse(userResponseText, numberid);
         }
 
         public string GetMessageText()

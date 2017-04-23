@@ -11,18 +11,21 @@ namespace PregnancySMS.MessageTreeHandlers
         /// Takes the phone number and body of a recieved text message and returns the body of the text
         /// we are going to send next. Returns empty string if we don't need to reply.
         /// </summary>
+        /// <param name="numberid"></param>
+        /// <param name="userTextContent"></param>
         /// <param name="phoneNumber">The phone number we received a text from.</param>
         /// <param name="messageText">The content of the text message.</param>
         /// <returns></returns>
-        public string HandleMessage(Number userNumberEntity, string userTextContent)
+        public string HandleMessage(string numberid, string userTextContent)
         {
+            
             if(userTextContent.ToLower() == "stop")
             {
                 //Code to handle unsubscribing
                 return "You have been unsubscribed from PrenancySMS.";
             }
 
-            IMessageLogic lastMessageWeSentId = ConversationCache.GetPreviousMessage(userNumberEntity.Id);
+            IMessageLogic lastMessageWeSentId = ConversationCache.GetPreviousMessage(numberid);
             IMessageLogic messageToSend;
 
             if(userTextContent.ToLower() == "baby")
@@ -33,18 +36,18 @@ namespace PregnancySMS.MessageTreeHandlers
             else
             {
                 //process message
-                messageToSend = lastMessageWeSentId.ProcessUserResponse(userTextContent, userNumberEntity);
+                messageToSend = lastMessageWeSentId.ProcessUserResponse(userTextContent, numberid);
             }
 
             string responseMessage = "";
             if(messageToSend != null)
             {
                 responseMessage = messageToSend.GetMessageText();
-                ConversationCache.UpdateConversationWithNewMessage(userNumberEntity.Id, messageToSend);
+                ConversationCache.UpdateConversationWithNewMessage(numberid, messageToSend);
             }
             else
             {
-                ConversationCache.DeleteConversation(userNumberEntity.Id);
+                ConversationCache.DeleteConversation(numberid);
             }
 
             return responseMessage;

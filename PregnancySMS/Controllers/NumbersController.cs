@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -8,6 +10,8 @@ using System.Web.Mvc;
 using System.Xml;
 using System.Xml.Linq;
 using Microsoft.AspNet.Identity;
+using PregnancySMS.MessageTreeHandlers;
+using PregnancySMS.Models;
 using Twilio;
 using Twilio.AspNet.Mvc;
 using Twilio.Rest.Api.V2010.Account;
@@ -18,14 +22,40 @@ namespace PregnancySMS.Controllers
 {
     public class NumbersController : TwilioController
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         [HttpPost]
         public ActionResult Index(string Body, string FromZip, string From)
         {
-            Body += " bacon";
-            From += " hello";
-            var user = User.Identity.GetUserId();
-            var myname = "Eric";
+            Number num = new Number();
+            if (db.Numbers.Any(u => u.PhoneNumber == From))
+            {
+                num = db.Numbers.FirstOrDefault(u => u.PhoneNumber == From);
+            }
+            else
+            {
+                    num.PhoneNumber = From;
+                    num.ZipCode = FromZip;
+                    num.Id = generateID();
+                    db.Numbers.Add(num);
+                    db.SaveChanges();
+            }
+            QuestionTreeHandler handler = new QuestionTreeHandler();
+            var response = handler.HandleMessage(num.Id, Body);
+
+            const string accountSid = "ACaa12252f58fe8c2e4f34fab8a45327b4";
+            const string authToken = "af0330dcde83e1de6891142b690db658";
+
+            // Initialize the Twilio client
+            TwilioClient.Init(accountSid, authToken);
+
+            MessageResource.Create(
+                    from: new PhoneNumber("216-450-6603"), // From number, must be an SMS-enabled Twilio number
+                    to: new PhoneNumber(From), // To number, if using Sandbox see note above
+                                                     // Message content
+                    body: response);
+
+
             return View();
         }
 
@@ -72,6 +102,11 @@ namespace PregnancySMS.Controllers
         {
             ViewBag.Message = Body;
             return View();
+        }
+
+        public string generateID()
+        {
+            return Guid.NewGuid().ToString("N");
         }
 
         //[HttpPost]

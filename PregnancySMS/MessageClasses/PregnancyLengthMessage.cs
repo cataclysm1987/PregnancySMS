@@ -6,7 +6,7 @@ namespace PregnancySMS.MessageClasses
 {
     public class PregnancyLengthMessage : BaseMessageLogic, IMessageLogic
     {
-        public IMessageLogic ProcessUserResponse(string userResponseText, Number userNumberEntity)
+        public IMessageLogic ProcessUserResponse(string userResponseText, string numberid)
         {
             userResponseText = userResponseText.Trim();
             int responseAsInt = -1;
@@ -14,6 +14,7 @@ namespace PregnancySMS.MessageClasses
             {
                 using (ApplicationDbContext db = new ApplicationDbContext())
                 {
+                    var userNumberEntity = db.Numbers.FirstOrDefault(u => u.Id == numberid);
                     userNumberEntity.Weeks = responseAsInt;
                     db.Entry(userNumberEntity).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();

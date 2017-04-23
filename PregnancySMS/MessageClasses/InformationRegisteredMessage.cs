@@ -14,7 +14,7 @@ namespace PregnancySMS.MessageClasses
             _numberEntryId = numberEntryId;
         }
 
-        public IMessageLogic ProcessUserResponse(string userResponseText, Number userNumberEntity)
+        public IMessageLogic ProcessUserResponse(string userResponseText, string numberid)
         {
             //This message should end the conversation.
             return null;
