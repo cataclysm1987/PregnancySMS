@@ -5,7 +5,9 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml;
 using System.Xml.Linq;
+using Microsoft.AspNet.Identity;
 using Twilio;
 using Twilio.AspNet.Mvc;
 using Twilio.Rest.Api.V2010.Account;
@@ -18,9 +20,13 @@ namespace PregnancySMS.Controllers
     {
 
         [HttpPost]
-        public ActionResult Index(HttpPostedFileBase xml)
+        public ActionResult Index(string Body, string FromZip, string From)
         {
-            
+            Body += " bacon";
+            From += " hello";
+            var user = User.Identity.GetUserId();
+            var myname = "Eric";
+            return View();
         }
 
         // GET: Numbers
